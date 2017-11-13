@@ -59,10 +59,6 @@ Product {
         }
     }
 
-    property string floatAbi: "soft"
-    property string cpuName: "cortex-m4"
-    property string fpuName: "fpv4-sp-d16"
-
     FileTagger {
         patterns: "*.ld"
         fileTags: ["linkerscript"]
@@ -109,23 +105,39 @@ Product {
         "HSE_VALUE=8000000"
     ]
 
+
+    property  string libraryPath: "./Libraries"
+    property string librarySourcesPath : libraryPath + "/STM32F4xx_StdPeriph_Driver/src/"
     cpp.includePaths:
         [
         ".",
         "./Config",
-        "./Libraries/STM32F4xx_StdPeriph_Driver/inc",
-        "./Libraries/CMSIS/Device/ST/STM32F4xx/Include",
-        "./Libraries/CMSIS/Include"
-        ]
-
-    files: [
-        "readme.txt",
-        "main.h",
-        "main.c",
-        "./Config/*",
-        "./Libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_rcc.c",
-        "./Libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_gpio.c"
+        libraryPath + "/STM32F4xx_StdPeriph_Driver/inc",
+        libraryPath + "/CMSIS/Device/ST/STM32F4xx/Include",
+        libraryPath + "/CMSIS/Include"
     ]
+
+    files: {
+        var projectFiles = [
+                    "readme.txt",
+                    "main.h",
+                    "main.c",
+                    "./Config/*",
+                ];
+
+        var librarySources = [
+                    "stm32f4xx_rcc.c",
+                    "stm32f4xx_gpio.c"
+                ]
+
+
+
+        for(var i=0; i<librarySources.length; i++){
+            projectFiles.push( librarySourcesPath + librarySources[i]);
+        }
+
+        return projectFiles;
+    }
 
     cpp.staticLibraries:
         [
