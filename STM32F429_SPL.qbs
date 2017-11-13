@@ -105,7 +105,8 @@ Product {
     cpp.defines: [
         "STM32F429_439xx",
         "USE_FULL_ASSERT",
-        "USE_STDPERIPH_DRIVER"
+        "USE_STDPERIPH_DRIVER",
+        "HSE_VALUE=8000000"
     ]
 
     cpp.includePaths:
