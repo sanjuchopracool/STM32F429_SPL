@@ -78,39 +78,27 @@ Product {
     cpp.enableReproducibleBuilds: true
     cpp.treatSystemHeadersAsDependencies: true
 
-    cpp.driverFlags: {
-        var arr = [
-                    "-mcpu=" + cpuName,
-                    "-mfloat-abi=" + floatAbi,
-                    "-mthumb",
-                    "-mabi=aapcs",
-                    "-mno-sched-prolog",
-                    "-mabort-on-noreturn",
-                    "-fdata-sections",
-                    "-ffunction-sections",
-                    "-fno-strict-aliasing",
-                    "-fno-builtin",
-                    "-specs=nosys.specs",
-                    "-specs=nano.specs",
-                    "-static",
-                    "-nodefaultlibs",
-                    "-Wdouble-promotion",
-                    "-ggdb",
-                    "-g3",
-                ];
-
-        if (fpuName && typeof(fpuName) === "string") {
-            arr.push("-mfpu=" + fpuName);
-        }
-
-        return arr;
-    }
+    cpp.driverFlags:
+        [
+        "-mcpu=cortex-m4",
+        "-mthumb",
+        "-mfloat-abi=softfp",
+        "-mfpu=fpv4-sp-d16",
+        "-Os",
+        "-ffunction-sections",
+        "-fdata-sections",
+        "-nodefaultlibs",
+        "-Wdouble-promotion",
+        "-Wall",
+        "-flto"
+    ]
 
     cpp.cxxFlags: [
     ]
 
     cpp.linkerFlags: [
         "--gc-sections",
+        "-u,Reset_Handler"
     ]
 
 
@@ -123,9 +111,9 @@ Product {
     cpp.includePaths:
         [
         ".",
-        "./config",
+        "./Config",
         "./Libraries/STM32F4xx_StdPeriph_Driver/inc",
-        "./Libraries/CMSIS/DEVICE/ST/STM32F4xx/include",
+        "./Libraries/CMSIS/Device/ST/STM32F4xx/Include",
         "./Libraries/CMSIS/Include"
         ]
 
@@ -133,8 +121,16 @@ Product {
         "readme.txt",
         "main.h",
         "main.c",
-        "./config/*",
+        "./Config/*",
         "./Libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_rcc.c",
         "./Libraries/STM32F4xx_StdPeriph_Driver/src/stm32f4xx_gpio.c"
+    ]
+
+    cpp.staticLibraries:
+        [
+        "gcc",
+        "c",
+        "m",
+        "nosys",
     ]
 }
