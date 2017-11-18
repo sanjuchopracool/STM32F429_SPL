@@ -28,6 +28,10 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
 /** @addtogroup Template_Project
   * @{
   */
@@ -46,6 +50,7 @@ void toggleLed(void * data)
 {
     /* Infinite loop */
     int8_t isSet = 0;
+    const portTickType xDelayTime = 500 / portTICK_RATE_MS;
     while (1)
     {
         if(isSet)
@@ -53,7 +58,7 @@ void toggleLed(void * data)
         else
             GPIO_SetBits( GPIOG, GPIO_Pin_14 |GPIO_Pin_13 );
         isSet = !isSet;
-        vTaskDelay(250);
+        vTaskDelay(xDelayTime);
     }
 }
 
@@ -85,7 +90,8 @@ int main(void)
     GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
     GPIO_Init(GPIOG, &GPIO_InitStructure);
 
-    xTaskCreate( toggleLed, (const char*)"VTask", 1024, NULL,1,NULL);
+
+    xTaskCreate( toggleLed, "VTask", 1024, NULL,1,NULL);
     vTaskStartScheduler();
 }
 
@@ -108,6 +114,10 @@ void assert_failed(uint8_t* file, uint32_t line)
     {
     }
 }
+#ifdef __cplusplus
+}
+#endif
+
 #endif
 
 /**

@@ -159,7 +159,7 @@ Product {
     cpp.staticLibraries:
         [
         "gcc",
-        "c",
+        "c_nano",
         "m",
         "nosys",
     ]
