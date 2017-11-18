@@ -29,6 +29,10 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx.h"
 
@@ -37,7 +41,13 @@
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-void TimingDelay_Decrement(void);
+
+#include <FreeRTOS.h>
+#include <task.h>
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MAIN_H */
 

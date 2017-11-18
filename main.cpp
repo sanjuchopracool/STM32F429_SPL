@@ -39,10 +39,23 @@
 static __IO uint32_t uwTimingDelay;
 RCC_ClocksTypeDef RCC_Clocks;
 
-/* Private function prototypes -----------------------------------------------*/
-static void Delay(__IO uint32_t nTime);
 
 /* Private functions ---------------------------------------------------------*/
+
+void toggleLed(void * data)
+{
+    /* Infinite loop */
+    int8_t isSet = 0;
+    while (1)
+    {
+        if(isSet)
+            GPIO_ResetBits( GPIOG, GPIO_Pin_14 |GPIO_Pin_13 );
+        else
+            GPIO_SetBits( GPIOG, GPIO_Pin_14 |GPIO_Pin_13 );
+        isSet = !isSet;
+        vTaskDelay(250);
+    }
+}
 
 /**
   * @brief  Main program
@@ -57,13 +70,9 @@ int main(void)
        To reconfigure the default setting of SystemInit() function,
        refer to system_stm32f4xx.c file */
 
-    /* SysTick end of count event each 10ms */
+    /* SysTick end of count event each 1 */
     RCC_GetClocksFreq(&RCC_Clocks);
-    SysTick_Config(RCC_Clocks.HCLK_Frequency / 100);
-
-    /* Add your application code here */
-    /* Insert 50 ms delay */
-    Delay(5);
+    SysTick_Config(RCC_Clocks.HCLK_Frequency / 1000);
 
     // for error blink
     RCC_AHB1PeriphClockCmd( RCC_AHB1Periph_GPIOG, ENABLE );
@@ -76,43 +85,8 @@ int main(void)
     GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
     GPIO_Init(GPIOG, &GPIO_InitStructure);
 
-
-    /* Infinite loop */
-    int8_t isSet = 0;
-    while (1)
-    {
-        if(isSet)
-            GPIO_ResetBits( GPIOG, GPIO_Pin_14 |GPIO_Pin_13 );
-        else
-            GPIO_SetBits( GPIOG, GPIO_Pin_14 |GPIO_Pin_13 );
-        isSet = !isSet;
-        Delay( 50 );
-    }
-}
-
-/**
-  * @brief  Inserts a delay time.
-  * @param  nTime: specifies the delay time length, in milliseconds.
-  * @retval None
-  */
-void Delay(__IO uint32_t nTime)
-{
-    uwTimingDelay = nTime;
-
-    while(uwTimingDelay != 0);
-}
-
-/**
-  * @brief  Decrements the TimingDelay variable.
-  * @param  None
-  * @retval None
-  */
-void TimingDelay_Decrement(void)
-{
-    if (uwTimingDelay != 0x00)
-    {
-        uwTimingDelay--;
-    }
+    xTaskCreate( toggleLed, (const char*)"VTask", 1024, NULL,1,NULL);
+    vTaskStartScheduler();
 }
 
 #ifdef  USE_FULL_ASSERT

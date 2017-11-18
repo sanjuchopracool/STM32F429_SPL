@@ -86,7 +86,7 @@ Product {
         "-nodefaultlibs",
         "-Wdouble-promotion",
         "-Wall",
-        "-flto"
+//        "-flto"
     ]
 
     cpp.cxxFlags: [
@@ -108,32 +108,49 @@ Product {
 
     property  string libraryPath: "./Libraries"
     property string librarySourcesPath : libraryPath + "/STM32F4xx_StdPeriph_Driver/src/"
+    property string freeRtosSourcePath : "./freertos/Source/"
     cpp.includePaths:
         [
         ".",
         "./Config",
         libraryPath + "/STM32F4xx_StdPeriph_Driver/inc",
         libraryPath + "/CMSIS/Device/ST/STM32F4xx/Include",
-        libraryPath + "/CMSIS/Include"
+        libraryPath + "/CMSIS/Include",
+        freeRtosSourcePath + "include",
+        freeRtosSourcePath + "portable/GCC/ARM_CM4F",
     ]
 
     files: {
         var projectFiles = [
                     "readme.txt",
                     "main.h",
-                    "main.c",
+                    "main.cpp",
                     "./Config/*",
                 ];
 
         var librarySources = [
                     "stm32f4xx_rcc.c",
-                    "stm32f4xx_gpio.c"
+                    "stm32f4xx_gpio.c",
                 ]
 
-
+        var freeRtosSources = [
+                    "portable/GCC/ARM_CM4F/port.c",
+                    "portable/MemMang/heap_4.c",
+                    "list.c",
+                    "tasks.c",
+                    "queue.c",
+                    "timers.c",
+                    "croutine.c",
+                    "event_groups.c",
+                    "readme.txt",
+                ]
 
         for(var i=0; i<librarySources.length; i++){
             projectFiles.push( librarySourcesPath + librarySources[i]);
+        }
+
+        for(var i=0; i<freeRtosSources.length; i++){
+            projectFiles.push( freeRtosSourcePath + freeRtosSources[i]);
         }
 
         return projectFiles;
