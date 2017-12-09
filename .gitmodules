@@ -1,0 +1,4 @@
+[submodule "freertos"]
+	path = freertos
+	url = https://github.com/sanjuchopracool/freertos.git
+	branch = master
