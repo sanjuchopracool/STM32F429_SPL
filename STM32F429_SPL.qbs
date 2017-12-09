@@ -135,7 +135,7 @@ Product {
 
         var freeRtosSources = [
                     "portable/GCC/ARM_CM4F/port.c",
-                    "portable/MemMang/heap_4.c",
+                    "portable/MemMang/heap_3.c",
                     "list.c",
                     "tasks.c",
                     "queue.c",
