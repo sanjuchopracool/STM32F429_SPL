@@ -49,6 +49,7 @@ RCC_ClocksTypeDef RCC_Clocks;
 
 void toggleLed(void * data)
 {
+    UNUSED(data);
     /* Infinite loop */
     int8_t isSet = 0;
     const portTickType xDelayTime = 500 / portTICK_RATE_MS;
@@ -98,6 +99,8 @@ int main(void)
   */
 void assert_failed(uint8_t* file, uint32_t line)
 {
+    UNUSED(file);
+    UNUSED(line);
     /* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
 
