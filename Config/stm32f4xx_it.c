@@ -1,11 +1,11 @@
 /**
   ******************************************************************************
-  * @file    FreeRTOS/FreeRTOS_ThreadCreation/Src/stm32f4xx_it.c 
+  * @file    FreeRTOS/FreeRTOS_ThreadCreation/Src/stm32f4xx_it.c
   * @author  MCD Application Team
   * @version V1.4.0
   * @date    17-February-2017
   * @brief   Main Interrupt Service Routines.
-  *          This file provides template for all exceptions handler and 
+  *          This file provides template for all exceptions handler and
   *          peripherals interrupt service routine.
   ******************************************************************************
   * @attention
@@ -18,8 +18,8 @@
   *
   *        http://www.st.com/software_license_agreement_liberty_v2
   *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   * See the License for the specific language governing permissions and
   * limitations under the License.
@@ -30,8 +30,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f4xx_it.h"
-
-extern void xPortSysTickHandler();
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -111,23 +109,6 @@ void UsageFault_Handler(void)
    */
 void DebugMon_Handler(void)
 {
-}
-
-/**
-  * @brief  This function handles SysTick Handler.
-  * @param  None
-  * @retval None
-  */
-void SysTick_Handler(void)
-{
-#if (INCLUDE_xTaskGetSchedulerState  == 1 )
-  if (xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED)
-  {
-#endif  /* INCLUDE_xTaskGetSchedulerState */
-    xPortSysTickHandler();
-#if (INCLUDE_xTaskGetSchedulerState  == 1 )
-  }
-#endif  /* INCLUDE_xTaskGetSchedulerState */
 }
 
 /******************************************************************************/

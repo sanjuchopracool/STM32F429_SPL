@@ -27,6 +27,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "system.h"
 
 #ifdef __cplusplus
  extern "C" {
@@ -69,16 +70,7 @@ void toggleLed(void * data)
   */
 int main(void)
 {
-    /*!< At this stage the microcontroller clock setting is already configured,
-       this is done through SystemInit() function which is called from startup
-       files before to branch to application main.
-       To reconfigure the default setting of SystemInit() function,
-       refer to system_stm32f4xx.c file */
-
-    /* SysTick end of count event each 1 */
-    RCC_GetClocksFreq(&RCC_Clocks);
-    SysTick_Config(RCC_Clocks.HCLK_Frequency / 1000);
-
+    systemInit();
     // for error blink
     RCC_AHB1PeriphClockCmd( RCC_AHB1Periph_GPIOG, ENABLE );
 

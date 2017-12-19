@@ -2,3 +2,6 @@
 	path = freertos
 	url = https://github.com/sanjuchopracool/freertos.git
 	branch = master
+[submodule "common"]
+	path = common
+	url = https://github.com/sanjuchopracool/common.git

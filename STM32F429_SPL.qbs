@@ -102,7 +102,8 @@ Product {
         "STM32F429_439xx",
         "USE_FULL_ASSERT",
         "USE_STDPERIPH_DRIVER",
-        "HSE_VALUE=8000000"
+        "HSE_VALUE=8000000",
+        "USE_FREERTOS"
     ]
 
 
@@ -113,6 +114,7 @@ Product {
         [
         ".",
         "./Config",
+        "./common",
         libraryPath + "/STM32F4xx_StdPeriph_Driver/inc",
         libraryPath + "/CMSIS/Device/ST/STM32F4xx/Include",
         libraryPath + "/CMSIS/Include",
@@ -123,14 +125,15 @@ Product {
     files: {
         var projectFiles = [
                     "readme.txt",
-                    "main.h",
-                    "main.cpp",
                     "./Config/*",
+                    "common/system.c",
+                    "main.cpp",
                 ];
 
         var librarySources = [
                     "stm32f4xx_rcc.c",
                     "stm32f4xx_gpio.c",
+                    "stm32f4xx_spi.c",
                 ]
 
         var freeRtosSources = [
