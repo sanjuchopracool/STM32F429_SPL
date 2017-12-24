@@ -80,7 +80,7 @@ Product {
         "-mthumb",
         "-mfloat-abi=softfp",
         "-mfpu=fpv4-sp-d16",
-        "-Os",
+//        "-Os",
         "-ffunction-sections",
         "-fdata-sections",
         "-nodefaultlibs",
@@ -115,6 +115,7 @@ Product {
         ".",
         "./Config",
         "./common",
+        "./Board",
         libraryPath + "/STM32F4xx_StdPeriph_Driver/inc",
         libraryPath + "/CMSIS/Device/ST/STM32F4xx/Include",
         libraryPath + "/CMSIS/Include",
@@ -127,6 +128,8 @@ Product {
                     "readme.txt",
                     "./Config/*",
                     "common/system.c",
+//                    "DisplaySPI.cpp",
+                    "./Board/SPI5Driver.cpp",
                     "main.cpp",
                 ];
 
