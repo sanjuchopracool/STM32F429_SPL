@@ -4,6 +4,8 @@ import qbs.FileInfo
 Product {
     type: ["application", "hex", "bin", "size"]
     Depends { name: "cpp" }
+    cpp.executableSuffix: ".out"
+    cpp.executablePrefix: ""
 
     Rule {
         id: hex
@@ -46,7 +48,7 @@ Product {
         inputs: ["application"]
         alwaysRun: true
         prepare: {
-            var sizePath = input.cpp.toolchainPrefix + "size"
+            var sizePath = "/Users/sanju/GCC_ARM/bin/arm-none-eabi-size"
             var args = [input.filePath];
             var cmd = new Command(sizePath, args);
             cmd.description = "File size: " + FileInfo.fileName(input.filePath);
