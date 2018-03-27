@@ -7,7 +7,7 @@ class SPI5Driver
 {
 public:
     SPI5Driver();
-    uint16_t WriteRead(uint16_t inByte );
+    uint16_t writeRead(uint16_t inByte );
 };
 
 #endif // SPI5DRIVER_H

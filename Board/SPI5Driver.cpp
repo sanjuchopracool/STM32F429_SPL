@@ -71,7 +71,7 @@ SPI5Driver::SPI5Driver()
     spiConfig.SPI_CPOL = SPI_CPOL_Low;
     spiConfig.SPI_CPHA = SPI_CPHA_1Edge;
     spiConfig.SPI_NSS = SPI_NSS_Soft;
-    spiConfig.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_8;
+    spiConfig.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_2;
 
     spiConfig.SPI_FirstBit = SPI_FirstBit_MSB;
     spiConfig.SPI_CRCPolynomial = 7;
@@ -80,7 +80,7 @@ SPI5Driver::SPI5Driver()
     SPI_Cmd(DRIVER_SPI, ENABLE);
 }
 
-uint16_t SPI5Driver::WriteRead(uint16_t inByte )
+uint16_t SPI5Driver::writeRead(uint16_t inByte )
 {
     while(RESET == (DRIVER_SPI->SR & SPI_I2S_FLAG_TXE));
     SPI_SendData(DRIVER_SPI, inByte);

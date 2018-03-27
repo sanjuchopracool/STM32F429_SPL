@@ -29,9 +29,7 @@
 #include "main.h"
 #include "system.h"
 
-#include "SPI5Driver.h"
-
-//#include "DisplaySPI.h"
+#include <SPIDisplay.h>
 
 #ifdef __cplusplus
  extern "C" {
@@ -54,7 +52,9 @@ void toggleLed(void * data)
     UNUSED(data);
     /* Infinite loop */
     int8_t isSet = 0;
+#ifdef USE_FREERTOS
     const portTickType xDelayTime = 500 / portTICK_RATE_MS;
+#endif
     while (1)
     {
         if(isSet)
@@ -62,7 +62,11 @@ void toggleLed(void * data)
         else
             GPIO_SetBits( GPIOG, GPIO_Pin_14 |GPIO_Pin_13 );
         isSet = !isSet;
+#ifdef USE_FREERTOS
         vTaskDelay(xDelayTime);
+#else
+        delay(500);
+#endif
     }
 }
 
@@ -71,12 +75,6 @@ void toggleLed(void * data)
   * @param  None
   * @retval None
   */
-
-#define GYRO_LOW    GPIO_ResetBits(GPIOC, GPIO_Pin_1)
-#define GYRO_High    GPIO_SetBits(GPIOC, GPIO_Pin_1)
-
-#define READWRITE_CMD              ((uint8_t)0x80)
-#define L3GD20_WHO_AM_I_ADDR          0x0F  /* device identification register */
 
 int main(void)
 {
@@ -91,32 +89,9 @@ int main(void)
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
     GPIO_Init(GPIOG, &GPIO_InitStructure);
-
-
-    // PC1 (CS for gyro)
-    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC , ENABLE);
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
-    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
-    GPIO_Init(GPIOC, &GPIO_InitStructure);
-
-    GYRO_High;
-
-    SPI5Driver theDriver;
-    volatile uint16_t deviceId = 0;
-
-    uint8_t inReg = (READWRITE_CMD | L3GD20_WHO_AM_I_ADDR);
-    GYRO_LOW;
-    deviceId = theDriver.WriteRead(inReg);
-    deviceId = theDriver.WriteRead(0x00);
-    GYRO_High;
-
-
-    if( deviceId == 0xD4 )
-        GPIO_SetBits( GPIOG, GPIO_Pin_14 |GPIO_Pin_13 );
-
-//    xTaskCreate( toggleLed, "VTask", 1024, NULL,1,NULL);
-//    vTaskStartScheduler();
-    while(1);
+    SPIDisplay theDisplay;
+    theDisplay.readID();
+    toggleLed( nullptr );
 }
 
 #ifdef  USE_FULL_ASSERT
@@ -132,13 +107,7 @@ void assert_failed(uint8_t* file, uint32_t line)
 {
     UNUSED(file);
     UNUSED(line);
-    /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-
-    /* Infinite loop */
-    while (1)
-    {
-    }
+//    toggleLed( nullptr);
 }
 #ifdef __cplusplus
 }

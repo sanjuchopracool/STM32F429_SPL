@@ -105,7 +105,7 @@ Product {
         "USE_FULL_ASSERT",
         "USE_STDPERIPH_DRIVER",
         "HSE_VALUE=8000000",
-        "USE_FREERTOS"
+//        "USE_FREERTOS"
     ]
 
 
@@ -132,6 +132,7 @@ Product {
                     "common/system.c",
 //                    "DisplaySPI.cpp",
                     "./Board/SPI5Driver.cpp",
+                    "./Board/SPIDisplay.cpp",
                     "main.cpp",
                 ];
 
@@ -141,25 +142,25 @@ Product {
                     "stm32f4xx_spi.c",
                 ]
 
-        var freeRtosSources = [
-                    "portable/GCC/ARM_CM4F/port.c",
-                    "portable/MemMang/heap_3.c",
-                    "list.c",
-                    "tasks.c",
-                    "queue.c",
-                    "timers.c",
-                    "croutine.c",
-                    "event_groups.c",
-                    "readme.txt",
-                ]
+//        var freeRtosSources = [
+//                    "portable/GCC/ARM_CM4F/port.c",
+//                    "portable/MemMang/heap_3.c",
+//                    "list.c",
+//                    "tasks.c",
+//                    "queue.c",
+//                    "timers.c",
+//                    "croutine.c",
+//                    "event_groups.c",
+//                    "readme.txt",
+//                ]
 
         for(var i=0; i<librarySources.length; i++){
             projectFiles.push( librarySourcesPath + librarySources[i]);
         }
 
-        for(var i=0; i<freeRtosSources.length; i++){
-            projectFiles.push( freeRtosSourcePath + freeRtosSources[i]);
-        }
+//        for(var i=0; i<freeRtosSources.length; i++){
+//            projectFiles.push( freeRtosSourcePath + freeRtosSources[i]);
+//        }
 
         return projectFiles;
     }
