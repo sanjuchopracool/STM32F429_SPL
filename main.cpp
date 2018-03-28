@@ -90,8 +90,13 @@ int main(void)
     GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
     GPIO_Init(GPIOG, &GPIO_InitStructure);
     SPIDisplay theDisplay;
-    theDisplay.readID();
-    toggleLed( nullptr );
+    while(1)
+    {
+        GPIOG->BSRRL = GPIO_Pin_14 |GPIO_Pin_13;
+        theDisplay.readID();
+        GPIOG->BSRRH = GPIO_Pin_14 |GPIO_Pin_13;
+        delay(100);
+    }
 }
 
 #ifdef  USE_FULL_ASSERT
