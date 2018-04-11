@@ -48,7 +48,7 @@ Product {
         inputs: ["application"]
         alwaysRun: true
         prepare: {
-            var sizePath = "/Users/sanju/GCC_ARM/bin/arm-none-eabi-size"
+            var sizePath = input.cpp.objcopyPath.slice(0, -7) + "size"
             var args = [input.filePath];
             var cmd = new Command(sizePath, args);
             cmd.description = "File size: " + FileInfo.fileName(input.filePath);
